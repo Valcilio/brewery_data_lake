@@ -1,3 +1,5 @@
+"""Module for handling AWS services."""
+
 import ast
 
 import boto3
@@ -6,6 +8,7 @@ from domain.utils.etllogger import ETLLogger
 
 
 class AWSHandler:
+    """Handles AWS services."""
 
     def __init__(self):
 

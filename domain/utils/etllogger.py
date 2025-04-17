@@ -1,8 +1,13 @@
+"""Module for creating and configuring a logger for forecasting models."""
+
 import datetime as dt
 import logging
 
+from cloudwatch import cloudwatch
+
 
 class ETLLogger:
+    """Class for creating and configuring a logger for forecasting models."""
 
     def __init__(self, file_name: str):
         """
@@ -18,7 +23,10 @@ class ETLLogger:
 
         self.today = dt.datetime.now().strftime("%Y%m%d")
 
-        handlers = [logging.StreamHandler()]
+        handlers = [
+            logging.StreamHandler(),
+            cloudwatch.CloudwatchHandler(log_group="/aws/ec2/brewery_data_lake"),
+        ]
 
         logging.basicConfig(
             format="%(name)s || %(asctime)s || (%(levelname)s) || %(message)s",

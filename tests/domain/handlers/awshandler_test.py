@@ -1,3 +1,5 @@
+"""Test the AWSHandler class."""
+
 from domain.handlers.awshandler import AWSHandler
 
 

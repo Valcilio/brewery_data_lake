@@ -2,11 +2,8 @@
 disable = [
     "line-too-long",
     "too-few-public-methods",
-    "attribute-defined-outside-init",
     "logging-fstring-interpolation",
     "too-many-arguments",
     "protected-access",
-    "missing-module-docstring",
-    "missing-class-docstring",
     "too-many-positional-arguments"
 ]

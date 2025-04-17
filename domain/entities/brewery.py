@@ -1,5 +1,6 @@
+"""Module for the Brewery class."""
+
 import pickle
-import json
 
 import pandas as pd
 from pandas.testing import assert_series_equal
@@ -8,15 +9,16 @@ from domain.utils.etllogger import ETLLogger
 
 
 class Brewery:
+    """Class representing a brewery."""
 
-    def __init__(self, data: json):
+    def __init__(self, data: list):
         """Initialize the Brewery class.
-        
+
         Args:
             data (pd.DataFrame): DataFrame containing brewery data.
         """
         self.data = pd.DataFrame(data)
-        self.logger = ETLLogger("Timeseries").get_logger()
+        self.logger = ETLLogger("Brewery").get_logger()
 
     def validate_dtypes(self):
         """Validate the dtypes of the dataframe.
