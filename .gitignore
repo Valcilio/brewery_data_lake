@@ -1,0 +1,11 @@
+*.env
+*__pycache__
+*.pytest_cache
+*.parquettest
+test_model_log1p.pkl
+.terraform
+.terraform.lock.hcl
+tf.data
+*.ipynb
+see_it.csv
+physical_currency_list.csv

@@ -1,0 +1,69 @@
+---
+name: Terraform
+on: 
+  workflow_call:
+    secrets:
+      TF_LOG:
+        required: true
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      AWS_DEFAULT_REGION:
+        required: true
+      IMAGE_TAG:
+        required: false
+      TF_WORKING_DIR:
+        required: false
+
+env:
+  TF_LOG: ${{ secrets.TF_LOG }}
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+  IMAGE_TAG: ${{ secrets.IMAGE_TAG || 'latest' }}
+  TF_WORKING_DIR: ${{ secrets.TF_WORKING_DIR || './' }}
+  
+jobs:
+  Terraform:
+    name: Init, Validate, Plan and Apply
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ env.TF_WORKING_DIR }}
+
+    steps:
+
+      - name: Checkout the repository to the runner
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform 1.11.3
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.11.3
+
+      - name:  Terraform Init
+        id: init
+        run: |-
+          terraform init
+
+      - name: Terraform Check Format
+        id: check-format-tf
+        run: |-
+          terraform fmt -check -recursive
+
+      - name: Terraform Validate
+        id: validate
+        run: |-
+          terraform validate
+
+      - name: Terraform Plan
+        id: plan
+        run: |-
+          terraform plan -var "image_tag=${{ env.IMAGE_TAG }}" -out tf.data
+
+      - name: Terraform Apply
+        id: apply
+        run: |-
+          terraform apply -auto-approve tf.data

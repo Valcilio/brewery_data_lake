@@ -1,0 +1,49 @@
+name: Build and Push
+on: 
+  workflow_call:
+    secrets:
+      ACCOUNT_ID:
+        required: true
+      AWS_DEFAULT_REGION:
+        required: true
+      ECR_PROJ_NAME:
+        required: true
+      AWS_ACCESS_KEY_ID:
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        required: true
+      IMAGE_TAG:
+        required: false
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
+  AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+  ECR_PROJ_NAME: ${{ secrets.ECR_PROJ_NAME }}
+  IMAGE_TAG: ${{ secrets.IMAGE_TAG || 'latest' }}
+
+jobs:
+  build-and-push:
+    name: Build and Push Image
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./
+
+    steps:
+      - name: Checkout the repository to the runner
+        uses: actions/checkout@v2
+
+      - name: Build Image
+        run: |- 
+          ls -la
+          docker build -t ${{ env.ECR_PROJ_NAME }} -f Dockerfile .
+
+      - name: Push Image
+        #if: github.ref == 'refs/heads/master'
+        run: |-
+          aws ecr get-login-password --region ${{ env.AWS_DEFAULT_REGION }} | docker login --username AWS --password-stdin ${{ env.ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_DEFAULT_REGION }}.amazonaws.com
+          docker tag ${{ env.ECR_PROJ_NAME }} ${{ env.ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_DEFAULT_REGION }}.amazonaws.com/${{ env.ECR_PROJ_NAME }}:${{ env.IMAGE_TAG }}
+          docker push ${{ env.ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_DEFAULT_REGION }}.amazonaws.com/${{ env.ECR_PROJ_NAME }}:${{ env.IMAGE_TAG }}
