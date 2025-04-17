@@ -1,4 +1,4 @@
-import json
+"""Module to write data at S3"""
 import awswrangler as wr
 
 from pandas import DataFrame
@@ -19,7 +19,9 @@ class BreweryWritter:
         self.kms_key = kms_key
         self.logger = ETLLogger("BreweryWriter").get_logger()
 
-    def write_df_to_s3_as_parquet_with_kms_key(self, df: DataFrame, s3_path: str, partition_cols: list) -> dict:
+    def write_df_to_s3_as_parquet_with_kms_key(
+        self, df: DataFrame, s3_path: str, partition_cols: list
+    ) -> dict:
         """Load the DataFrame into an S3 bucket."""
 
         try:
@@ -30,9 +32,15 @@ class BreweryWritter:
             }
 
             self.logger.info("Writting data into S3 bucket.")
-            wr.s3.to_parquet(df=df, path=s3_path, partition_cols=partition_cols, s3_additional_kwargs=extra_args, dataset=True)
+            wr.s3.to_parquet(
+                df=df,
+                path=s3_path,
+                partition_cols=partition_cols,
+                s3_additional_kwargs=extra_args,
+                dataset=True,
+            )
             self.logger.info("Data written successfully.")
-            return {"Body": "Data loaded successfully", "StatusCode": 200}
+            return {"Body": df, "StatusCode": 200}
         except Exception as e:
             msg = f"Error writing data to S3: {e}"
             self.logger.error(msg)
@@ -49,9 +57,11 @@ class BreweryWritter:
             }
 
             self.logger.info("Writting data into S3 bucket.")
-            wr.s3.to_json(DataFrame(data), path=s3_path, s3_additional_kwargs=extra_args)
+            wr.s3.to_json(
+                DataFrame(data), path=s3_path, s3_additional_kwargs=extra_args
+            )
             self.logger.info("Data written successfully.")
-            return {"Body": "Data loaded successfully", "StatusCode": 200}
+            return {"Body": data, "StatusCode": 200}
         except Exception as e:
             msg = f"Error writing data to S3: {e}"
             self.logger.error(msg)

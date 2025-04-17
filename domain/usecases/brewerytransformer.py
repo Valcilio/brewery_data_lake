@@ -10,8 +10,7 @@ LOGGER = ETLLogger("BreweryTransformer").get_logger()
 class BreweryTransformer:
     """Transform the brewery data into a structured format."""
 
-    @staticmethod
-    def structure_into_dataframe(data: list) -> pd.DataFrame:
+    def structure_into_dataframe(self, data: list) -> pd.DataFrame:
         """Structure the extracted data into a DataFrame.
 
         Args:
@@ -19,12 +18,12 @@ class BreweryTransformer:
 
         LOGGER.info("Structuring json (in list format) into DataFrame.")
         df = pd.DataFrame(data)
+        df = self._generate_brewery_location_col(df)
 
         return df
 
-    @staticmethod
     def get_brewery_quantity_aggregated_by_location_and_type(
-        df: pd.DataFrame,
+        self, df: pd.DataFrame,
     ) -> pd.DataFrame:
         """Aggregate the brewery data by location and brewery type.
 
@@ -40,3 +39,10 @@ class BreweryTransformer:
         sorted_df = df_agg.sort_values("brewery_type")
 
         return sorted_df
+
+    def _generate_brewery_location_col(self, df: pd.DataFrame):
+        """Generate the brewery location col."""
+
+        df["brewery_location"] = df["country"].astype(str) + ", " + df["state_province"].astype(str) + ", " + df["city"].astype(str)
+
+        return df
