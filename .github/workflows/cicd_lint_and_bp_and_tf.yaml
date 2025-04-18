@@ -34,7 +34,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       IMAGE_TAG: ${{ secrets.IMAGE_TAG || 'latest' }}
       TF_WORKING_DIR: ${{ secrets.BASE_TF_WORKING_DIR || './base_terraform' }}
-      ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
+      AWS_ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
       SNS_EMAIL_SUBSCRIBED: ${{ secrets.SNS_EMAIL_SUBSCRIBED}}
 
   ContinuousIntegration:
