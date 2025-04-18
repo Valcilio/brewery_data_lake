@@ -26,6 +26,11 @@ resource "aws_iam_role_policy" "brewery_crawler_role_role_policy" {
   policy = data.aws_iam_policy_document.brewery_ec2_role_policy.json
 }
 
+resource "aws_iam_role_policy_attachment" "attach_glue_service_role_policy" {
+  role       = aws_iam_role.glue_crawler_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
+}
+
 resource "aws_glue_crawler" "brewery_crawler" {
   database_name = aws_glue_catalog_database.brewery_database.name
   name          = "brewery_crawler"
