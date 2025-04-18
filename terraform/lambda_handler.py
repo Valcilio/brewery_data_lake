@@ -46,7 +46,10 @@ def lambda_handler(event, context):
         if event["retry_number"] >= 4:
             logger.error("Max retry limit reached. Exiting process.")
             raise ValueError("Max retry limit reached. Exiting process.")
-        create_ec2_for_etl(event=event)
+        logger.info("Creating EC2 instance for ETL process.")
+        output = create_ec2_for_etl(event=event)
+        logger.info("EC2 instance created successfully.")
+        return output
     except Exception as e:
         logger.error(f"Error in lambda_handler: {e}")
         boto3.client("sns").publish(
