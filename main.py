@@ -13,32 +13,41 @@ LOGGER = ETLLogger("ETLProcess").get_logger()
 def main():
     """Main function to run the ETL process."""
 
-    event = get_event()
-    bronze_data_path, silver_data_path, gold_data_path = get_paths(event)
+    try:
+        event = get_event()
+        bronze_data_path, silver_data_path, gold_data_path = get_paths(event)
+        data_handler = DataHandler(event["kms_key"])
 
-    data_handler = DataHandler(event["kms_key"])
-    LOGGER.info("Starting the handling of the bronze data.")
-    bronze_output = data_handler.handle_raw_data(bronze_data_path, event["start_page"])
-    if bronze_output["StatusCode"] == 200:
-        LOGGER.info("Bronze data written successfully.")
-        LOGGER.info("Starting the handling of the silver data.")
-        silver_output = data_handler.handle_processed_data(
-            silver_data_path, bronze_output["Body"]
-        )
-        if silver_output["StatusCode"] == 200:
-            LOGGER.info("Silver data written successfully.")
-            LOGGER.info("Starting the handling of the gold data.")
-            gold_output = data_handler.handle_view_data(
-                gold_data_path, silver_output["Body"]
+        LOGGER.info("Starting the handling of the bronze data.")
+        bronze_output = data_handler.handle_raw_data(bronze_data_path, event["start_page"])
+        if bronze_output["StatusCode"] == 200:
+            LOGGER.info("Bronze data written successfully.")
+            LOGGER.info("Starting the handling of the silver data.")
+            silver_output = data_handler.handle_processed_data(
+                silver_data_path, bronze_output["Body"]
             )
-            if gold_output["StatusCode"] == 200:
-                LOGGER.info("Gold data written successfully.")
-                AWSHandler().put_parameter(
-                    parameter_name=os.environ["START_PAGE_PARAMETER_NAME"],
-                    value=str(int(event["start_page"]) + 4),
+            if silver_output["StatusCode"] == 200:
+                LOGGER.info("Silver data written successfully.")
+                LOGGER.info("Starting the handling of the gold data.")
+                gold_output = data_handler.handle_view_data(
+                    gold_data_path, silver_output["Body"]
                 )
-                LOGGER.info("Process finished successfully.")
-                return {"StatusCode": 200}
+                if gold_output["StatusCode"] == 200:
+                    LOGGER.info("Gold data written successfully.")
+                    AWSHandler().put_parameter(
+                        parameter_name=os.environ["START_PAGE_PARAMETER_NAME"],
+                        value=str(int(event["start_page"]) + 4),
+                    )
+                    LOGGER.info("Process finished successfully.")
+                    return {"StatusCode": 200}
+    except Exception as e:
+        LOGGER.error(f"Error in the ETL process: {e}")
+        send_error_with_sns(
+            f"Error in the Brewery ETL process: {e}",
+            event,
+        )
+        retry_process(event)
+        return {"StatusCode": 400}
 
     LOGGER.error("Error in this process!")
     send_error_with_sns(
