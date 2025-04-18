@@ -7,7 +7,7 @@ resource "aws_iam_service_linked_role" "glue_service_role" {
   custom_suffix    = "glue_service_role"
 }
 
-resource "aws_iam_role_policy" "brewery_etl_ec2_role_policy" {
+resource "aws_iam_role_policy" "brewery_crawler_role_role_policy" {
   name   = "brewery_crawler_role_policy"
   role   = aws_iam_service_linked_role.glue_service_role.id
   policy = data.aws_iam_policy_document.brewery_ec2_role_policy.json
