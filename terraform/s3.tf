@@ -21,6 +21,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "brewery_athena_outputs_lifecyc
     id     = "expire-objects"
     status = "Enabled"
 
+    filter {
+      object_size_greater_than = 1
+    }
+
     expiration {
       days = 1
     }

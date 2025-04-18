@@ -16,7 +16,7 @@ resource "aws_glue_catalog_database" "brewery_database" {
 }
 
 resource "aws_iam_role" "glue_crawler_role" {
-  name    = "AWSGlueServiceRole-glue_crawler_role"
+  name               = "AWSGlueServiceRole-glue_crawler_role"
   assume_role_policy = data.aws_iam_policy_document.assume_glue_role.json
 }
 
