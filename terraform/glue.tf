@@ -30,7 +30,7 @@ resource "aws_glue_crawler" "brewery_crawler" {
   database_name = aws_glue_catalog_database.brewery_database.name
   name          = "brewery_crawler"
   role          = aws_iam_role.glue_crawler_role.arn
-
+  schedule      = "cron(0 12 * * ? *)"
   s3_target {
     path = "s3://${aws_s3_bucket.brewery-gold-layer.bucket}"
   }
