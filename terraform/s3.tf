@@ -10,6 +10,23 @@ resource "aws_s3_bucket" "brewery-gold-layer" {
   bucket = "brewery-gold-layer"
 }
 
+resource "aws_s3_bucket" "athena_outputs" {
+  bucket = "brewery-athena-outputs"
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "brewery_athena_outputs_lifecycle" {
+  bucket = aws_s3_bucket.athena_outputs.id
+
+  rule {
+    id     = "expire-objects"
+    status = "Enabled"
+
+    expiration {
+      days = 1
+    }
+  }
+}
+
 resource "aws_s3_bucket_lifecycle_configuration" "brewery_bronze_layer_bucket_lifecycle" {
   bucket = aws_s3_bucket.brewery-bronze-layer.id
 
