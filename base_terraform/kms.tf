@@ -1,7 +1,7 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_kms_key" "brewery_kms_key" {
-  description             = "KMS Key fro Brewery Project"
+  description = "KMS Key fro Brewery Project"
   policy = jsonencode({
     Version = "2012-10-17"
     Id      = "key-default-1"

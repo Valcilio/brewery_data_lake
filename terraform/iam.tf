@@ -13,9 +13,9 @@ data "aws_iam_policy_document" "assume_ec2_role" {
 
 data "aws_iam_policy_document" "brewery_ec2_role_policy" {
   statement {
-    sid       = "AllowS3BreweryBuckets"
-    effect    = "Allow"
-    actions   = ["s3:GetObject", "s3:List*", "s3:DeleteObject", "s3:PutObject"]
+    sid     = "AllowS3BreweryBuckets"
+    effect  = "Allow"
+    actions = ["s3:GetObject", "s3:List*", "s3:DeleteObject", "s3:PutObject"]
     resources = [
       "arn:aws:s3:::brewery-bronze-layer*",
       "arn:aws:s3:::brewery-silver-layer*",
@@ -41,9 +41,9 @@ data "aws_iam_policy_document" "brewery_ec2_role_policy" {
     resources = ["arn:aws:sns:${var.aws_region}:${var.aws_account_id}:brewery_etl_topic*"]
   }
   statement {
-    sid       = "AllowParameterStoreReadWrite"
-    effect    = "Allow"
-    actions   = ["ssm:GetParameter", "ssm:PutParameter"]
+    sid     = "AllowParameterStoreReadWrite"
+    effect  = "Allow"
+    actions = ["ssm:GetParameter", "ssm:PutParameter"]
     resources = [
       "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/brewery_start_page*"
     ]
@@ -62,9 +62,9 @@ resource "aws_iam_role" "brewery_etl_ec2_role" {
 }
 
 resource "aws_iam_role_policy" "brewery_etl_ec2_role_policy" {
-    name        = "brewery_etl_ec2_role_policy"
-    role        = aws_iam_role.brewery_etl_ec2_role.id
-    policy      = data.aws_iam_policy_document.brewery_ec2_role_policy.json
+  name   = "brewery_etl_ec2_role_policy"
+  role   = aws_iam_role.brewery_etl_ec2_role.id
+  policy = data.aws_iam_policy_document.brewery_ec2_role_policy.json
 }
 
 resource "aws_iam_instance_profile" "test_profile" {

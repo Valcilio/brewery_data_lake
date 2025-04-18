@@ -18,11 +18,11 @@ resource "aws_s3_bucket_lifecycle_configuration" "brewery_bronze_layer_bucket_li
     status = "Enabled"
 
     filter {
-        object_size_greater_than = 1
+      object_size_greater_than = 1
     }
 
     transition {
-      days = 30
+      days          = 30
       storage_class = "GLACIER"
     }
   }
@@ -36,11 +36,11 @@ resource "aws_s3_bucket_lifecycle_configuration" "brewery_silver_layer_bucket_li
     status = "Enabled"
 
     filter {
-        object_size_greater_than = 1
+      object_size_greater_than = 1
     }
 
     transition {
-      days = 90
+      days          = 90
       storage_class = "GLACIER"
     }
   }

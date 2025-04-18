@@ -10,7 +10,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "brewery_temp_test_bucket_lifec
     status = "Enabled"
 
     filter {
-        object_size_greater_than = 1
+      object_size_greater_than = 1
     }
 
     expiration {

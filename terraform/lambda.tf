@@ -44,22 +44,22 @@ resource "aws_iam_role" "brewery_etl_lambda_role" {
 }
 
 resource "aws_iam_role_policy" "brewery_etl_lambda_role_policy" {
-    name        = "brewery_etl_lambda_role_policy"
-    role        = aws_iam_role.brewery_etl_lambda_role.id
-    policy      = data.aws_iam_policy_document.brewery_lambda_role_policy.json
+  name   = "brewery_etl_lambda_role_policy"
+  role   = aws_iam_role.brewery_etl_lambda_role.id
+  policy = data.aws_iam_policy_document.brewery_lambda_role_policy.json
 }
 
 data "archive_file" "lambda_handler" {
-    type = "zip"
-    source_file = "lambda_handler.py"
-    output_path = "lambda_handler.zip"
+  type        = "zip"
+  source_file = "lambda_handler.py"
+  output_path = "lambda_handler.zip"
 }
 
 resource "aws_lambda_function" "brewery_etl_lambda" {
-    function_name = "brewery_etl_lambda"
-    filename = "lambda_handler.zip"
-    source_code_hash = data.archive_file.lambda_handler.output_base64sha256
-    runtime = "python3.10"
-    handler = "lambda_handler.lambda_handler"
-    role = aws_iam_role.brewery_etl_lambda_role.arn
+  function_name    = "brewery_etl_lambda"
+  filename         = "lambda_handler.zip"
+  source_code_hash = data.archive_file.lambda_handler.output_base64sha256
+  runtime          = "python3.10"
+  handler          = "lambda_handler.lambda_handler"
+  role             = aws_iam_role.brewery_etl_lambda_role.arn
 }
