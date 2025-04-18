@@ -18,7 +18,7 @@ def lambda_handler(event, context):
         logger = get_logger(file_name="lambda_handler")
         logger.info(event)
         logger.info(context)
-        if event["RETRY_NUMBER"] >= 4:
+        if int(event["RETRY_NUMBER"]) >= 4:
             logger.error("Max retry limit reached. Exiting process.")
             raise ValueError("Max retry limit reached. Exiting process.")
         logger.info("Creating EC2 instance for ETL process.")
