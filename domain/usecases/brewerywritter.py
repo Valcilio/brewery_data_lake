@@ -1,4 +1,5 @@
 """Module to write data at S3"""
+
 import awswrangler as wr
 
 from pandas import DataFrame

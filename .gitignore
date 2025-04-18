@@ -9,3 +9,5 @@ tf.data
 *.ipynb
 see_it.csv
 physical_currency_list.csv
+*.zip
+.env

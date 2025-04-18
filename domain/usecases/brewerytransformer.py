@@ -23,7 +23,8 @@ class BreweryTransformer:
         return df
 
     def get_brewery_quantity_aggregated_by_location_and_type(
-        self, df: pd.DataFrame,
+        self,
+        df: pd.DataFrame,
     ) -> pd.DataFrame:
         """Aggregate the brewery data by location and brewery type.
 
@@ -43,6 +44,12 @@ class BreweryTransformer:
     def _generate_brewery_location_col(self, df: pd.DataFrame):
         """Generate the brewery location col."""
 
-        df["brewery_location"] = df["country"].astype(str) + ", " + df["state_province"].astype(str) + ", " + df["city"].astype(str)
+        df["brewery_location"] = (
+            df["country"].astype(str)
+            + ", "
+            + df["state_province"].astype(str)
+            + ", "
+            + df["city"].astype(str)
+        )
 
         return df

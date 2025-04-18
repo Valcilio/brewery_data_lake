@@ -1,9 +1,7 @@
 data "aws_caller_identity" "current" {}
 
-resource "aws_kms_key" "example" {
-  description             = "An example symmetric encryption KMS key"
-  enable_key_rotation     = true
-  deletion_window_in_days = 20
+resource "aws_kms_key" "brewery_kms_key" {
+  description             = "KMS Key fro Brewery Project"
   policy = jsonencode({
     Version = "2012-10-17"
     Id      = "key-default-1"
@@ -19,4 +17,9 @@ resource "aws_kms_key" "example" {
       }
     ]
   })
+}
+
+resource "aws_kms_alias" "brewery_kms_key_alias" {
+  name          = "alias/brewery_etl_key"
+  target_key_id = aws_kms_key.brewery_kms_key.key_id
 }

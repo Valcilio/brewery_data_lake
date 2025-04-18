@@ -1,20 +1,22 @@
 """Module to define fixtures for testing the domain layer of the application."""
 
-import os
 import pickle
 
 from pandas import read_parquet
 import pytest
+
 
 @pytest.fixture
 def test_parquet_with_brewery_loc():
     """Fixture to read a parquet with brewery location col."""
     return read_parquet("tests/test_data/test_parquet_with_brewery_loc.parquet")
 
+
 @pytest.fixture
 def test_parquet_without_brewery_loc():
     """Fixture to read a parquet with brewery location col."""
     return read_parquet("tests/test_data/test_parquet_without_brewery_loc.parquet")
+
 
 @pytest.fixture
 def partition_cols():
@@ -25,7 +27,7 @@ def partition_cols():
 @pytest.fixture
 def test_kms_key():
     """Fixture to provide a KMS key for testing."""
-    return os.environ["KMS_KEY"]
+    return "alias/brewery_etl_key"
 
 
 @pytest.fixture
@@ -74,3 +76,21 @@ def test_url():
 def test_wrong_url():
     """Fixture to provide a wrong URL for testing."""
     return "https://wrongurl.com/breweries.json"
+
+
+@pytest.fixture
+def test_bucket_name():
+    """Fixture to provide a bucket name for testing."""
+    return "brewery-test-files-temp"
+
+
+@pytest.fixture
+def test_bucket_key():
+    """Fixture to provide a bucket name for testing."""
+    return "abc/def/ghi"
+
+
+@pytest.fixture
+def test_parameter_name():
+    """Fixture to provide a parameter name for testing."""
+    return "brewery_test_parameter"

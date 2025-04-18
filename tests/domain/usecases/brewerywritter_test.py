@@ -1,4 +1,5 @@
 """Test the BreweryWritter class."""
+
 import warnings
 from pandas import DataFrame
 
@@ -6,8 +7,12 @@ from domain.usecases.brewerywritter import BreweryWritter
 
 warnings.filterwarnings("ignore")
 
+
 def test_write_df_to_s3_as_parquet_with_kms_key(
-        test_parquet_with_brewery_loc: DataFrame, test_s3_path: str, test_kms_key: str, partition_cols: list
+    test_parquet_with_brewery_loc: DataFrame,
+    test_s3_path: str,
+    test_kms_key: str,
+    partition_cols: list,
 ):
     """Test the write_df_to_s3_as_parquet_with_kms_key method of BreweryWritter.
 
@@ -17,7 +22,9 @@ def test_write_df_to_s3_as_parquet_with_kms_key(
         test_kms_key (str): The KMS key for testing.
         partition_cols (list): The partition columns for testing.
     """
-    response = BreweryWritter(test_kms_key).write_df_to_s3_as_parquet_with_kms_key(test_parquet_with_brewery_loc, test_s3_path, partition_cols)
+    response = BreweryWritter(test_kms_key).write_df_to_s3_as_parquet_with_kms_key(
+        test_parquet_with_brewery_loc, test_s3_path, partition_cols
+    )
 
     assert response["StatusCode"] == 200
 
