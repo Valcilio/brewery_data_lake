@@ -19,3 +19,8 @@ variable "image_tag" {
   description = "The tag for the Docker image."
   type        = string
 }
+
+variable "email" {
+  description = "The tag for the Docker image."
+  type        = string
+}
