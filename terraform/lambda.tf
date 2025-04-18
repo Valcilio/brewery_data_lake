@@ -63,7 +63,7 @@ resource "aws_lambda_function" "brewery_etl_lambda" {
   handler          = "lambda_handler.lambda_handler"
   role             = aws_iam_role.brewery_etl_lambda_role.arn
   timeout          = 900
-  memory_size      = 1024 
+  memory_size      = 1024
   environment {
     variables = {
       "ECR_IMAGE_NAME"       = "brewery_etl_ecr_repo"
