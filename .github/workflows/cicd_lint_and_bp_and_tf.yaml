@@ -34,7 +34,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       IMAGE_TAG: ${{ secrets.IMAGE_TAG || 'latest' }}
       TF_WORKING_DIR: ${{ secrets.BASE_TF_WORKING_DIR || './base_terraform' }}
-      AWS_ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
+      ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
       SNS_EMAIL_SUBSCRIBED: ${{ secrets.SNS_EMAIL_SUBSCRIBED}}
 
   ContinuousIntegration:
@@ -43,6 +43,7 @@ jobs:
       AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION || 'us-east-1' }}
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
     needs: [PrepareEnviromnentForTests]
 
   ContinuousDelivery:
