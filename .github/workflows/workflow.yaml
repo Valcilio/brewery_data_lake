@@ -9,11 +9,11 @@ on:
   workflow_dispatch:
   
 jobs:
-  OndadDashesAdminPipeline:
+  BrewerieDataLakePipeline:
     uses: ./.github/workflows/cicd_lint_and_bp_and_tf.yaml
     secrets:
       ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
-      AWS_DEFAULT_REGION: {{ secrets.AWS_DEFAULT_REGION || 'us-east-1' }}
+      AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION || 'us-east-1' }}
       ECR_PROJ_NAME: brewerie_data_lake
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
