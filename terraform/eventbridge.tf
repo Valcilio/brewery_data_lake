@@ -1,7 +1,7 @@
 resource "aws_cloudwatch_event_rule" "brewery_trigger_rule" {
   name                = "brewery_trigger_rule"
   description         = "At 12:00 AM, only on Friday."
-  schedule_expression = "cron(0 0 * * FRI *)"
+  schedule_expression = "cron(0 0 4 * ? *)"
 }
 
 resource "aws_cloudwatch_event_target" "target_to_brewery_etl_lambda" {
