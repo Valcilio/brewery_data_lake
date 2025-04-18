@@ -52,7 +52,7 @@ data "aws_iam_policy_document" "brewery_ec2_role_policy" {
     sid       = "AllowKMSDecrypt"
     effect    = "Allow"
     actions   = ["kms:*"]
-    resources = ["arn:aws:kms:${var.aws_region}:${var.aws_account_id}:key/de3057e0-8fae-41a1-9432-563e2acb3c04*"]
+    resources = ["${data.aws_kms_key.get_brewery_kms_key.arn}*"]
   }
 }
 
