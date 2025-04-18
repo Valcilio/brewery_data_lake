@@ -10,7 +10,7 @@ on:
   
 jobs:
   OndadDashesAdminPipeline:
-    uses: ./.github/workflows/cicd_lint_and_bp_and_tf.yaml@master
+    uses: ./.github/workflows/cicd_lint_and_bp_and_tf.yaml
     secrets:
       ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
       AWS_DEFAULT_REGION: {{ secrets.AWS_DEFAULT_REGION || 'us-east-1' }}
