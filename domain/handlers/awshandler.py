@@ -26,7 +26,9 @@ class AWSHandler:
             FunctionName=lambda_name, LogType="Tail", Payload=json.dumps(event)
         )
 
-    def publish_message_to_sns(self, topic_arn: str, message: str) -> dict:
+    def publish_message_to_sns(
+        self, topic_arn: str, message: str, subject: str
+    ) -> dict:
         """Publishes a message to an SNS topic.
 
         Args:
@@ -38,7 +40,7 @@ class AWSHandler:
         """
         sns_client = self._sns_client()
         self.logger.info(f"Publishing message to SNS topic {topic_arn}")
-        return sns_client.publish(TopicArn=topic_arn, Message=message)
+        return sns_client.publish(TopicArn=topic_arn, Subject=subject, Message=message)
 
     def retriever_parameter(self, parameter_name: str):
         """Retrieves a parameter from AWS Systems Manager Parameter Store.

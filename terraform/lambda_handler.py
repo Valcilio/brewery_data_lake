@@ -30,6 +30,7 @@ def lambda_handler(event, context):
         boto3.client("sns").publish(
             TopicArn=f"arn:aws:sns:{event['AWS_REGION']}:{event['AWS_ACCOUNT_ID']}:brewery_etl_topic",
             Message=str(e),
+            Subject="Brewery ETL Lambda Error",
         )
         raise e
 

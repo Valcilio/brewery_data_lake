@@ -92,6 +92,7 @@ def send_error_with_sns(error_message: str, event: dict):
     AWSHandler().publish_message_to_sns(
         topic_arn=f"arn:aws:sns:{event['aws_region']}:{event['account_id']}:brewery_test_topic",
         message=error_message,
+        subject="Error in the Brewery ETL process",
     )
 
 

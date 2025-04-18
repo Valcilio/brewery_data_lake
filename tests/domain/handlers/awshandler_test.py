@@ -25,6 +25,7 @@ def test_publish_message_to_sns():
     test_output = AWSHandler().publish_message_to_sns(
         topic_arn=f"arn:aws:sns:{aws_region}:{account_id}:brewery_test_topic",
         message="this_is_a_test",
+        subject="this_is_a_test",
     )
 
     assert test_output["ResponseMetadata"]["HTTPStatusCode"] == 200
