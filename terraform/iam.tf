@@ -67,7 +67,7 @@ resource "aws_iam_role_policy" "brewery_etl_ec2_role_policy" {
   policy = data.aws_iam_policy_document.brewery_ec2_role_policy.json
 }
 
-resource "aws_iam_instance_profile" "test_profile" {
+resource "aws_iam_instance_profile" "brewery_etl_ec2_instance_profile" {
   name = aws_iam_role.brewery_etl_ec2_role.name
   role = aws_iam_role.brewery_etl_ec2_role.name
 }

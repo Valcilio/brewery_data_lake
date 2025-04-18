@@ -62,4 +62,11 @@ resource "aws_lambda_function" "brewery_etl_lambda" {
   runtime          = "python3.10"
   handler          = "lambda_handler.lambda_handler"
   role             = aws_iam_role.brewery_etl_lambda_role.arn
+  environment {
+    variables = {
+      "ECR_IMAGE_NAME" = "brewery_etl_ecr_repo"
+      "ECR_IMAGE_TAG" = "${var.image_tag}"
+      "EC2_INSTANCE_PROFILE" = "${aws_iam_instance_profile.brewery_etl_ec2_instance_profile.name}"
+    }
+  }
 }
