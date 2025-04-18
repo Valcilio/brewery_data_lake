@@ -32,7 +32,7 @@ data "aws_iam_policy_document" "brewery_ec2_role_policy" {
     sid       = "AllowCloudwatchLogs"
     effect    = "Allow"
     actions   = ["logs:*"]
-    resources = ["arn:aws:logs:us-east-1:${var.aws_account_id}:log-group:/ec2/lambda/brewery_etl_ec2*"]
+    resources = ["arn:aws:logs:us-east-1:${var.aws_account_id}:log-group:/aws/ec2/brewery_etl_ec2*"]
   }
   statement {
     sid       = "AllowSnsPublish"
