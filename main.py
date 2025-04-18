@@ -89,6 +89,7 @@ def send_error_with_sns(error_message: str, event: dict):
         error_message (str): The error message to send.
         event (dict): The event dictionary containing the AWS region and account ID."""
 
+    LOGGER.info(f"Sending error message to SNS: {error_message}")
     AWSHandler().publish_message_to_sns(
         topic_arn=f"arn:aws:sns:{event['aws_region']}:{event['account_id']}:brewery_test_topic",
         message=error_message,
@@ -102,6 +103,7 @@ def retry_process(event: dict):
         event (dict): The event dictionary containing the Lambda function name and retry number.
     """
 
+    LOGGER.info("Retrying the ETL process.")
     retry_number = int(event["retry_number"])
     event_to_retry = get_event_to_retry(event)
     AWSHandler().invoke_lambda(
