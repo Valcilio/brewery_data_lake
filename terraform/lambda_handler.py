@@ -106,6 +106,7 @@ shutdown -h now""",
 
     return json.loads(json.dumps(instance, default=str))
 
+
 def get_logger(file_name: str) -> logging.Logger:
     """
     Returns a logger instance with the specified file name.

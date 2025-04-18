@@ -92,8 +92,11 @@ def retry_process(event: dict):
     retry_number = int(event["retry_number"])
     event_to_retry = get_event_to_retry(event)
     AWSHandler().invoke_lambda(
-        lambda_name=event["lambda_name"], retry_number=retry_number + 1, event=event_to_retry
+        lambda_name=event["lambda_name"],
+        retry_number=retry_number + 1,
+        event=event_to_retry,
     )
+
 
 def get_event_to_retry(event: dict) -> dict:
     """Get the event dictionary with environment variables for retrying the ETL process.
@@ -112,10 +115,11 @@ def get_event_to_retry(event: dict) -> dict:
         "AWS_REGION": os.environ["AWS_REGION"],
         "AWS_ACCOUNT_ID": os.environ["AWS_ACCOUNT_ID"],
         "RETRY_NUMBER": str(int(event["RETRY_NUMBER"]) + 1),
-        "LAMBDA_NAME": os.environ["LAMBDA_NAME"]
+        "LAMBDA_NAME": os.environ["LAMBDA_NAME"],
     }
 
     return event_to_retry
+
 
 def get_event() -> dict:
     """Get the event dictionary with environment variables.
@@ -137,7 +141,7 @@ def get_event() -> dict:
         "aws_region": os.environ["AWS_REGION"],
         "aws_account_id": os.environ["AWS_ACCOUNT_ID"],
         "retry_number": os.environ["RETRY_NUMBER"],
-        "lambda_name": os.environ["LAMBDA_NAME"]
+        "lambda_name": os.environ["LAMBDA_NAME"],
     }
 
     return event
