@@ -1,7 +1,6 @@
 variable "aws_account_id" {
   description = "The ID of the AWS account."
   type        = string
-  default     = "311141538723"
 }
 
 variable "aws_region" {
@@ -14,6 +13,11 @@ variable "project_name" {
   description = "The name of the project."
   type        = string
   default     = "brewery_etl"
+}
+
+variable "email" {
+  description = "The email address for SNS notifications."
+  type        = string
 }
 
 variable "image_tag" {

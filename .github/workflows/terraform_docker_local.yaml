@@ -14,6 +14,10 @@ on:
         required: false
       TF_WORKING_DIR:
         required: false
+      ACCOUNT_ID:
+        required: true
+      SNS_EMAIL_SUBSCRIBED:
+        required: true
 
 env:
   TF_LOG: ${{ secrets.TF_LOG }}
@@ -22,6 +26,8 @@ env:
   AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
   IMAGE_TAG: ${{ secrets.IMAGE_TAG || 'latest' }}
   TF_WORKING_DIR: ${{ secrets.TF_WORKING_DIR || './' }}
+  ACCOUNT_ID: ${{ secrets.ACCOUNT_ID }}
+  SNS_EMAIL_SUBSCRIBED: ${{ secrets.SNS_EMAIL_SUBSCRIBED }}
   
 jobs:
   Terraform:
@@ -60,7 +66,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: |-
-          terraform plan -var "image_tag=${{ env.IMAGE_TAG }}" -out tf.data
+          terraform plan -var "image_tag=${{ env.IMAGE_TAG }}" -var "aws_account_id=${{ env.ACCOUNT_ID }}" -var "email=${{ env.SNS_EMAIL_SUBSCRIBED }}" -out tf.data
 
       - name: Terraform Apply
         id: apply

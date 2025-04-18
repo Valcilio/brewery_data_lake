@@ -35,7 +35,7 @@ def main():
                 LOGGER.info("Gold data written successfully.")
                 AWSHandler().put_parameter(
                     parameter_name=os.environ["START_PAGE_PARAMETER_NAME"],
-                    value=str(int(event["start_page"]) + 1),
+                    value=str(int(event["start_page"]) + 4),
                 )
                 LOGGER.info("Process finished successfully.")
                 return {"StatusCode": 200}
@@ -90,9 +90,6 @@ def retry_process(event: dict):
     """
 
     retry_number = int(event["retry_number"])
-    if retry_number >= 3:
-        LOGGER.error("Max retry limit reached. Exiting process.")
-        raise ValueError("Max retry limit reached. Exiting process.")
     event["retry_number"] = str(retry_number + 1)
     AWSHandler().invoke_lambda(
         lambda_name=event["lambda_name"], retry_number=retry_number + 1, event=event
