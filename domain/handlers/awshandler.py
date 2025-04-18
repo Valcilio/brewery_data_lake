@@ -79,7 +79,7 @@ class AWSHandler:
             boto3.client: The S3 client.
         """
         self.logger.info("Initializing Lambda Function client")
-        return boto3.client("lambda")
+        return boto3.client("lambda", region_name="us-east-1")
 
     def _sns_client(self):
         """
@@ -89,7 +89,7 @@ class AWSHandler:
             boto3.client: The SNS client.
         """
         self.logger.info("Initializing SNS client")
-        return boto3.client("sns")
+        return boto3.client("sns", region_name="us-east-1")
 
     def _ssm_client(self):
         """
@@ -99,4 +99,4 @@ class AWSHandler:
             boto3.client: The SSM client.
         """
         self.logger.info("Initializing SSM client")
-        return boto3.client("ssm")
+        return boto3.client("ssm", region_name="us-east-1")
