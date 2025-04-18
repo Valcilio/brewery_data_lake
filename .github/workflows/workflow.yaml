@@ -20,4 +20,5 @@ jobs:
       TF_LOG: 'OFF'
       IMAGE_TAG: '1.0.0'
       TF_WORKING_DIR: './terraform'
+      BASE_TF_WORKING_DIR: './base_terraform'
       SNS_EMAIL_SUBSCRIBED: ${{ secrets.SNS_EMAIL_SUBSCRIBED }}
