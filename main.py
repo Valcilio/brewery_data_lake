@@ -91,7 +91,7 @@ def send_error_with_sns(error_message: str, event: dict):
 
     LOGGER.info(f"Sending error message to SNS: {error_message}")
     AWSHandler().publish_message_to_sns(
-        topic_arn=f"arn:aws:sns:{event['aws_region']}:{event['account_id']}:brewery_test_topic",
+        topic_arn=f"arn:aws:sns:{event['aws_region']}:{event['aws_account_id']}:brewery_test_topic",
         message=error_message,
         subject="Error in the Brewery ETL process",
     )
@@ -155,7 +155,7 @@ def get_event_to_retry(event: dict) -> dict:
         "GOLD_KEY": os.environ["GOLD_KEY"],
         "AWS_REGION": os.environ["AWS_REGION"],
         "AWS_ACCOUNT_ID": os.environ["AWS_ACCOUNT_ID"],
-        "RETRY_NUMBER": str(int(event["RETRY_NUMBER"]) + 1),
+        "RETRY_NUMBER": str(int(event["retry_number"]) + 1),
         "LAMBDA_NAME": os.environ["LAMBDA_NAME"],
     }
 
