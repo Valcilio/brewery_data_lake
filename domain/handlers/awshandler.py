@@ -73,10 +73,10 @@ class AWSHandler:
 
     def _lambda_client(self):
         """
-        Initializes the S3 client.
+        Initializes the Lambda client.
 
         Returns:
-            boto3.client: The S3 client.
+            boto3.client: The Lambda client.
         """
         self.logger.info("Initializing Lambda Function client")
         return boto3.client("lambda", region_name="us-east-1")
