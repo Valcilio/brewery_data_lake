@@ -15,7 +15,7 @@ resource "aws_cloudwatch_event_target" "target_to_brewery_etl_lambda" {
     "GOLD_BUCKET" : "brewery-gold-layer",
     "BRONZE_KEY" : "raw/jsons/data",
     "SILVER_KEY" : "processed/parquets/brewery_proc_data",
-    "GOLD_KEY" : "views/parquet/brewery_type_loc_view",
+    "GOLD_KEY" : "brewery_type_loc_view",
     "AWS_REGION" : "us-east-1",
     "AWS_ACCOUNT_ID" : "${var.aws_account_id}",
     "RETRY_NUMBER" : "0",
