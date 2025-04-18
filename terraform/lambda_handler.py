@@ -91,6 +91,7 @@ docker run \
   -e SILVER_KEY=${event["SILVER_KEY"]} \
   -e GOLD_KEY=${event["GOLD_KEY"]} \
   -e AWS_REGION=${event["AWS_REGION"]} \
+  -e AWS_DEFAULT_REGION=${event["AWS_REGION"]} \
   -e AWS_ACCOUNT_ID=${event["AWS_ACCOUNT_ID"]} \
   -e RETRY_NUMBER=${event["RETRY_NUMBER"]} \
   -e LAMBDA_NAME=${event["LAMBDA_NAME"]} \
