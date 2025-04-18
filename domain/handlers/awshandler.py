@@ -54,9 +54,8 @@ class AWSHandler:
             self.logger.info(f"Retrieving parameter {parameter_name} from SSM")
             return ssm_client.get_parameter(Name=parameter_name)
         except ssm_client.exceptions.ParameterNotFound:
-            self.put_parameter(
-                parameter_name=parameter_name, value="1"
-            )
+            self.put_parameter(parameter_name=parameter_name, value="1")
+            return self.retriever_parameter(parameter_name=parameter_name)
 
     def put_parameter(self, parameter_name: str, value: str):
         """Puts a parameter into AWS Systems Manager Parameter Store.
