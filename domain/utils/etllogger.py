@@ -25,7 +25,9 @@ class ETLLogger:
 
         handlers = [
             logging.StreamHandler(),
-            cloudwatch.CloudwatchHandler(log_group="/aws/ec2/brewery_etl_ec2", region="us-east-1"),
+            cloudwatch.CloudwatchHandler(
+                log_group="/aws/ec2/brewery_etl_ec2", region="us-east-1"
+            ),
         ]
 
         logging.basicConfig(
