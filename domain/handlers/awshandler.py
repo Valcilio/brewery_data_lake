@@ -49,9 +49,14 @@ class AWSHandler:
         Returns:
             dict: The response from the SSM get_parameter operation.
         """
-        ssm_client = self._ssm_client()
-        self.logger.info(f"Retrieving parameter {parameter_name} from SSM")
-        return ssm_client.get_parameter(Name=parameter_name)
+        try:
+            ssm_client = self._ssm_client()
+            self.logger.info(f"Retrieving parameter {parameter_name} from SSM")
+            return ssm_client.get_parameter(Name=parameter_name)
+        except ssm_client.exceptions.ParameterNotFound:
+            self.put_parameter(
+                parameter_name=parameter_name, value="1"
+            )
 
     def put_parameter(self, parameter_name: str, value: str):
         """Puts a parameter into AWS Systems Manager Parameter Store.
