@@ -80,7 +80,7 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
  
 echo "Starting Docker Pulling"
 docker pull {account_number}.dkr.ecr.us-east-1.amazonaws.com/{ecr_image}
-docker run 
+docker run \
   -v "$HOME/.aws:/root/.aws" \
   -e KMS_KEY={event["KMS_KEY"]} \
   -e START_PAGE_PARAMETER_NAME={event["START_PAGE_PARAMETER_NAME"]} \
