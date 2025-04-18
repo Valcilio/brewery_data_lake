@@ -6,6 +6,7 @@ import json
 
 import boto3
 
+
 def get_logger(file_name: str) -> logging.Logger:
     """
     Returns a logger instance with the specified file name.
@@ -45,7 +46,7 @@ def lambda_handler(event, context):
         if event["retry_number"] >= 4:
             logger.error("Max retry limit reached. Exiting process.")
             raise ValueError("Max retry limit reached. Exiting process.")
-        
+        create_ec2_for_etl(event=event)
     except Exception as e:
         logger.error(f"Error in lambda_handler: {e}")
         boto3.client("sns").publish(
@@ -54,20 +55,21 @@ def lambda_handler(event, context):
         )
         raise e
 
-def create_ec2_for_train_job(event: dict, context: dict) -> boto3.resource:
+
+def create_ec2_for_etl(event: dict) -> boto3.resource:
     """
-    Create a EC2 machine for the training job.
- 
+    Create a EC2 machine for the ETL.
+
     Args:
         event (dict): the event with the request data.
         context (dict): the context with the context
         (like the moment of the request and from where the request came) data.
     """
- 
+
     ec2 = boto3.resource("ec2", region_name="us-east-1")
     ecr_image = f"{os.environ['ECR_IMAGE_NAME']}:{os.environ['ECR_IMAGE_TAG']}"
     account_number = event["AWS_ACCOUNT_ID"]
- 
+
     instance = ec2.create_instances(
         BlockDeviceMappings=[
             {
@@ -123,5 +125,5 @@ shutdown -h now""",
         InstanceInitiatedShutdownBehavior="terminate",
         DisableApiStop=False,
     )
- 
+
     return json.loads(json.dumps(instance, default=str))
