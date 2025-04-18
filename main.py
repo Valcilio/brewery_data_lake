@@ -15,11 +15,14 @@ def main():
 
     try:
         event = get_event()
+        LOGGER.info(event)
         bronze_data_path, silver_data_path, gold_data_path = get_paths(event)
         data_handler = DataHandler(event["kms_key"])
 
         LOGGER.info("Starting the handling of the bronze data.")
-        bronze_output = data_handler.handle_raw_data(bronze_data_path, event["start_page"])
+        bronze_output = data_handler.handle_raw_data(
+            bronze_data_path, event["start_page"]
+        )
         if bronze_output["StatusCode"] == 200:
             LOGGER.info("Bronze data written successfully.")
             LOGGER.info("Starting the handling of the silver data.")

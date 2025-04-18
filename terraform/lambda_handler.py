@@ -80,22 +80,7 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
  
 echo "Starting Docker Pulling"
 docker pull {account_number}.dkr.ecr.us-east-1.amazonaws.com/{ecr_image}
-docker run \
-  -v "$HOME/.aws:/root/.aws" \
-  -e KMS_KEY=${event["KMS_KEY"]} \
-  -e START_PAGE_PARAMETER_NAME=${event["START_PAGE_PARAMETER_NAME"]} \
-  -e BRONZE_BUCKET=${event["BRONZE_BUCKET"]} \
-  -e SILVER_BUCKET=${event["SILVER_BUCKET"]} \
-  -e GOLD_BUCKET=${event["GOLD_BUCKET"]} \
-  -e BRONZE_KEY=${event["BRONZE_KEY"]} \
-  -e SILVER_KEY=${event["SILVER_KEY"]} \
-  -e GOLD_KEY=${event["GOLD_KEY"]} \
-  -e AWS_REGION=${event["AWS_REGION"]} \
-  -e AWS_DEFAULT_REGION=${event["AWS_REGION"]} \
-  -e AWS_ACCOUNT_ID=${event["AWS_ACCOUNT_ID"]} \
-  -e RETRY_NUMBER=${event["RETRY_NUMBER"]} \
-  -e LAMBDA_NAME=${event["LAMBDA_NAME"]} \
-    {account_number}.dkr.ecr.us-east-1.amazonaws.com/{ecr_image}
+docker run -v "$HOME/.aws:/root/.aws" -e KMS_KEY=${event["KMS_KEY"]} -e START_PAGE_PARAMETER_NAME=${event["START_PAGE_PARAMETER_NAME"]} -e BRONZE_BUCKET=${event["BRONZE_BUCKET"]} -e SILVER_BUCKET=${event["SILVER_BUCKET"]} -e GOLD_BUCKET=${event["GOLD_BUCKET"]} -e BRONZE_KEY=${event["BRONZE_KEY"]} -e SILVER_KEY=${event["SILVER_KEY"]} -e GOLD_KEY=${event["GOLD_KEY"]} -e AWS_REGION=${event["AWS_REGION"]} -e AWS_DEFAULT_REGION=${event["AWS_REGION"]} -e AWS_ACCOUNT_ID=${event["AWS_ACCOUNT_ID"]} -e RETRY_NUMBER=${event["RETRY_NUMBER"]} -e LAMBDA_NAME=${event["LAMBDA_NAME"]} {account_number}.dkr.ecr.us-east-1.amazonaws.com/{ecr_image}
  
 echo "Starting the shutdown"
 shutdown -h now""",
