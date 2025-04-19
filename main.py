@@ -126,7 +126,8 @@ def retry_process(event: dict):
             LOGGER.info("ETL process retried successfully.")
         else:
             raise RuntimeError(
-                f"Failed to retry the ETL process. Status code: {response['StatusCode']}")
+                f"Failed to retry the ETL process. Status code: {response['StatusCode']}"
+            )
     except Exception as e:
         LOGGER.error(f"Error retrying the ETL process: {e}")
         raise e
