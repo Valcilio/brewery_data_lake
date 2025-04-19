@@ -28,7 +28,7 @@ class BreweryExtractor:
             self.logger.info("Extraction completed successfully.")
             return {"Body": json_response, "StatusCode": 200}
         except requests.exceptions.RequestException as e:
-            self.logger.debug(f"Error fetching data from {self.url}: {e}")
+            self.logger.error(f"Error fetching data from {self.url}: {e}")
             return {"Body": f"Error fetching data from {self.url}", "StatusCode": 400}
 
     def _check_dtypes(self, json_response: list):
@@ -37,5 +37,5 @@ class BreweryExtractor:
             Brewery(json_response).validate_dtypes()
             return {"Body": "Dtypes match", "StatusCode": 200}
         except AssertionError:
-            self.logger.debug("Data validation failed. Dtypes do not match.")
+            self.logger.error("Data validation failed. Dtypes do not match.")
             return {"Body": "Data validation failed", "StatusCode": 400}

@@ -44,7 +44,7 @@ class BreweryWritter:
             return {"Body": df, "StatusCode": 200}
         except Exception as e:
             msg = f"Error writing data to S3: {e}"
-            self.logger.debug(msg)
+            self.logger.error(msg)
             return {"Body": msg, "StatusCode": 400}
 
     def write_json_to_s3_with_kms_key(self, data: list, s3_path: str) -> dict:
@@ -65,5 +65,5 @@ class BreweryWritter:
             return {"Body": data, "StatusCode": 200}
         except Exception as e:
             msg = f"Error writing data to S3: {e}"
-            self.logger.debug(msg)
+            self.logger.error(msg)
             return {"Body": msg, "StatusCode": 400}

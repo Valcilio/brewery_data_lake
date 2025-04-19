@@ -19,14 +19,14 @@ def lambda_handler(event, context):
         logger.info(event)
         logger.info(context)
         if int(event["RETRY_NUMBER"]) >= 4:
-            logger.debug("Max retry limit reached. Exiting process.")
+            logger.error("Max retry limit reached. Exiting process.")
             raise ValueError("Max retry limit reached. Exiting process.")
         logger.info("Creating EC2 instance for ETL process.")
         output = create_ec2_for_etl(event=event)
         logger.info("EC2 instance created successfully.")
         return output
     except Exception as e:
-        logger.debug(f"Error in lambda_handler: {e}")
+        logger.error(f"Error in lambda_handler: {e}")
         boto3.client("sns").publish(
             TopicArn=f"arn:aws:sns:{event['AWS_REGION']}:{event['AWS_ACCOUNT_ID']}:brewery_etl_topic",
             Message=str(e),

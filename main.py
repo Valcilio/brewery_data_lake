@@ -44,7 +44,7 @@ def main():
                     LOGGER.info("Process finished successfully.")
                     return {"StatusCode": 200}
     except Exception as e:
-        LOGGER.debug(f"Error in the ETL process: {e}")
+        LOGGER.error(f"Error in the ETL process: {e}")
         send_error_with_sns(
             f"Error in the Brewery ETL process: {e}",
             event,
@@ -52,9 +52,9 @@ def main():
         retry_process(event)
         return {"StatusCode": 400}
 
-    LOGGER.debug("Error in this process!")
+    LOGGER.error("Error in this process!")
     send_error_with_sns(
-        "Error in the Brewery ETL process, please, check the logs in cloudwatch to debug it!",
+        "Error in the Brewery ETL process, please, check the logs in cloudwatch to error it!",
         event,
     )
     retry_process(event)
@@ -97,7 +97,7 @@ def send_error_with_sns(error_message: str, event: dict):
             subject="Error in the Brewery ETL process",
         )
     except Exception as e:
-        LOGGER.debug(f"Error sending message to SNS: {e}")
+        LOGGER.error(f"Error sending message to SNS: {e}")
         raise e
 
 
@@ -117,7 +117,7 @@ def retry_process(event: dict):
             event=event_to_retry,
         )
     except Exception as e:
-        LOGGER.debug(f"Error retrying the ETL process: {e}")
+        LOGGER.error(f"Error retrying the ETL process: {e}")
         raise e
 
 
