@@ -91,11 +91,17 @@ def send_error_with_sns(error_message: str, event: dict):
 
     try:
         LOGGER.info(f"Sending error message to SNS: {error_message}")
-        AWSHandler().publish_message_to_sns(
+        response = AWSHandler().publish_message_to_sns(
             topic_arn=f"arn:aws:sns:{event['aws_region']}:{event['aws_account_id']}:brewery_etl_topic",
             message=error_message,
             subject="Error in the Brewery ETL process",
         )
+        if response["ResponseMetadata"]["HTTPStatusCode"] == 200:
+            LOGGER.info("Error message sent to SNS successfully.")
+        else:
+            raise RuntimeError(
+                f"Error message sent to SNS successfully. Message ID: {response['MessageId']}"
+            )
     except Exception as e:
         LOGGER.error(f"Error sending message to SNS: {e}")
         raise e
@@ -111,11 +117,16 @@ def retry_process(event: dict):
         LOGGER.info("Retrying the ETL process.")
         retry_number = int(event["retry_number"])
         event_to_retry = get_event_to_retry(event)
-        AWSHandler().invoke_lambda(
+        response = AWSHandler().invoke_lambda(
             lambda_name=event["lambda_name"],
             retry_number=retry_number + 1,
             event=event_to_retry,
         )
+        if response["StatusCode"] == 200:
+            LOGGER.info("ETL process retried successfully.")
+        else:
+            raise RuntimeError(
+                f"Failed to retry the ETL process. Status code: {response['StatusCode']}")
     except Exception as e:
         LOGGER.error(f"Error retrying the ETL process: {e}")
         raise e
