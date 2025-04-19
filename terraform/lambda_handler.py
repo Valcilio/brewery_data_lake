@@ -27,11 +27,13 @@ def lambda_handler(event, context):
         return output
     except Exception as e:
         logger.error(f"Error in lambda_handler: {e}")
+        logger.info("Sending error message to SNS.")
         boto3.client("sns").publish(
             TopicArn=f"arn:aws:sns:{event['AWS_REGION']}:{event['AWS_ACCOUNT_ID']}:brewery_etl_topic",
             Message=str(e),
             Subject="Brewery ETL Lambda Error",
         )
+        logger.info("Error message sent to SNS.")
         raise e
 
 
