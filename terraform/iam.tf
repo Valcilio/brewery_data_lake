@@ -49,6 +49,14 @@ data "aws_iam_policy_document" "brewery_ec2_role_policy" {
     ]
   }
   statement {
+    sid     = "AllowLambdaInvoke"
+    effect  = "Allow"
+    actions = ["lambda:InvokeFunction"]
+    resources = [
+      "${aws_lambda_function.brewery_etl_lambda.arn}*"
+    ]
+  }
+  statement {
     sid       = "AllowKMSDecrypt"
     effect    = "Allow"
     actions   = ["kms:*"]
