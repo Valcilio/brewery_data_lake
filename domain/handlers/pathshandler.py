@@ -13,7 +13,11 @@ class PathsHandler:
         self.logger = ETLLogger("PathsHandler").get_logger()
 
     def define_path_for_parquet(self, bucket_name: str, key: str) -> str:
-        """Define the path for parquet files."""
+        """Define the path for parquet files.
+
+        Args:
+            bucket_name (str): The name of the S3 bucket.
+            key (str): The key for the S3 object."""
 
         self.logger.info(
             f"Defining path for parquet files in bucket: {bucket_name}, key: {key}"
@@ -21,7 +25,11 @@ class PathsHandler:
         return f"s3://{bucket_name}/{key}/{self._get_datetime_now()}"
 
     def define_path_for_json(self, bucket_name: str, key: str) -> str:
-        """Define the path for json files."""
+        """Define the path for json files.
+
+        Args:
+            bucket_name (str): The name of the S3 bucket.
+            key (str): The key for the S3 object."""
         self.logger.info(
             f"Defining path for json files in bucket: {bucket_name}, key: {key}"
         )

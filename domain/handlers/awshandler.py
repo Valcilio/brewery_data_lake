@@ -15,10 +15,12 @@ class AWSHandler:
         self.logger = ETLLogger(__name__).get_logger()
 
     def invoke_lambda(self, lambda_name: str, retry_number: int, event: dict) -> dict:
-        """Retrieves a secret from AWS Secrets Manager.
+        """Invokes an AWS Lambda function.
 
         Args:
-            secret_name (str): The name of the secret to retrieve."""
+            lambda_name (str): The name of the Lambda function to invoke.
+            retry_number (int): The retry number for the invocation.
+            event (dict): The event data to pass to the Lambda function."""
 
         lambda_client = self._lambda_client()
         self.logger.info(f"Invoking lambda for retry number {retry_number}")

@@ -23,7 +23,12 @@ class BreweryWritter:
     def write_df_to_s3_as_parquet_with_kms_key(
         self, df: DataFrame, s3_path: str, partition_cols: list
     ) -> dict:
-        """Load the DataFrame into an S3 bucket."""
+        """Load the DataFrame into an S3 bucket.
+
+        Args:
+            df (DataFrame): The DataFrame to write to S3.
+            s3_path (str): The S3 path where the DataFrame will be written.
+            partition_cols (list): List of columns to partition the data by."""
 
         try:
             self.logger.info("Configurating KMS key to put data into S3 encrypted.")
@@ -48,7 +53,11 @@ class BreweryWritter:
             return {"Body": msg, "StatusCode": 400}
 
     def write_json_to_s3_with_kms_key(self, data: list, s3_path: str) -> dict:
-        """Load the JSON data into an S3 bucket."""
+        """Load the JSON data into an S3 bucket.
+
+        Args:
+            data (list): The JSON data to write to S3.
+            s3_path (str): The S3 path where the JSON data will be written."""
 
         try:
             self.logger.info("Configurating KMS key to put data into S3 encrypted.")

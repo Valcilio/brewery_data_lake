@@ -23,7 +23,12 @@ class DataHandler:
         self.logger = ETLLogger("BreweryAPIHandler").get_logger()
 
     def handle_raw_data(self, s3_path: str, start_page: str):
-        """Handle raw data controlling it extraction and write."""
+        """Handle raw data controlling it extraction and write.
+
+        Args:
+            s3_path (str): The S3 path to store the data.
+            start_page (str): The page number to start extracting data from.
+        """
 
         url = (
             f"https://api.openbrewerydb.org/v1/breweries?page={start_page}&per_page=200"
@@ -37,7 +42,12 @@ class DataHandler:
         return raw_data
 
     def handle_processed_data(self, s3_path: str, raw_data: str):
-        """Handle the processed data to the save it inside the silver layer."""
+        """Handle the processed data to the save it inside the silver layer.
+
+        Args:
+            s3_path (str): The S3 path to store the data.
+            raw_data (str): The path to the raw data.
+        """
 
         silver_df = BreweryTransformer().structure_into_dataframe(raw_data)
         return BreweryWritter(self.kms_key).write_df_to_s3_as_parquet_with_kms_key(
@@ -45,7 +55,12 @@ class DataHandler:
         )
 
     def handle_view_data(self, s3_path: str, silver_df: DataFrame):
-        """Handle the data created for the view which will be saved at the gold layer."""
+        """Handle the data created for the view which will be saved at the gold layer.
+
+        Args:
+            s3_path (str): The S3 path to store the data.
+            silver_df (DataFrame): The DataFrame to be transformed and saved.
+        """
 
         gold_df = (
             BreweryTransformer().get_brewery_quantity_aggregated_by_location_and_type(
